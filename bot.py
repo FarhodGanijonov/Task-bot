@@ -303,17 +303,14 @@ async def send_final_info(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Foydalanuvchiga oxirgi ma'lumotlarni yuborish"""
     chat_id = update.effective_chat.id
 
-    # Suhbat va manzil haqida xabar
+    # Suhbat vaqti haqida xabar
     await context.bot.send_message(
         chat_id=chat_id,
         text=(
             "📌 *Muhim ma'lumotlar:*\n\n"
             "🗓 *Suhbat vaqti:*\n"
             "Bugun va ertaga 🕐 11:00 da\n"
-            "_(Yakshanba kuni bo'lmaydi)_\n\n"
-            "📍 *Manzilimiz:*\n"
-            "Toshkent shahar, Uchtepa tumani,\n"
-            "Beshqayrog'och 170-uy"
+            "_(Yakshanba kuni bo'lmaydi)_"
         ),
         parse_mode="Markdown"
     )
@@ -325,13 +322,17 @@ async def send_final_info(update: Update, context: ContextTypes.DEFAULT_TYPE):
         longitude=LOCATION_LONGITUDE
     )
 
-    # Bino rasmi yuborish (agar mavjud bo'lsa)
+    # Bino rasmi + matn yuborish (locatsiya bilan birga)
     if os.path.exists(BUILDING_PHOTO_PATH):
         with open(BUILDING_PHOTO_PATH, "rb") as photo:
             await context.bot.send_photo(
                 chat_id=chat_id,
                 photo=photo,
-                caption=("🏢 Manzilimiz: Toshkent shahar, Uchtepa tumani, Beshqayrog'och 170-uy\n\n⚠️ Shu bino — mabodo telefonga javob bera olmasak yoki Telegramga javob bera olmay qolsak, to'g'ri o'ng eshigidan kirib: \"Suhbatga keldim\" deb aytaverasiz!")
+                caption=(
+                    "🏢 Manzilimiz: Toshkent shahar, Uchtepa tumani, Beshqayrog'och 170-uy\n\n"
+                    "⚠️ Mabodo telefonga yoki Telegramga javob bera olmasak — "
+                    "to'g'ri o'ng eshigidan kirib: \"Suhbatga keldim\" deb aytaverasiz!"
+                )
             )
 
 
